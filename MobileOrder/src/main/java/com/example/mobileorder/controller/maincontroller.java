@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-public class MainController {
+public class maincontroller {
 
     @FXML
     private TableView<Item> tableView;
@@ -23,9 +23,9 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        nameColumn.setCellValueFactory(/* ... */);
-        priceColumn.setCellValueFactory(/* ... */);
-        quantityColumn.setCellValueFactory(/* ... */);
+        //nameColumn.setCellValueFactory(/* ... */);
+        //priceColumn.setCellValueFactory(/* ... */);
+        //quantityColumn.setCellValueFactory(/* ... */);
 
         // 数量のChoiceBoxを設定
         quantityColumn.setCellFactory(col -> new TableCell<>() {
@@ -76,10 +76,10 @@ public class MainController {
             }
         });
 
-        private void loadItems() {
+        /*private void loadItems() {
             List<Item> itemList = DatabaseUtil.getItemsFromDatabase();
             ObservableList<Item> items = FXCollections.observableArrayList(itemList);
             tableView.setItems(items);
-        }
+        }*/
     }
 }
