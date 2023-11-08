@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Item {
     private final SimpleStringProperty name;
+<<<<<<< HEAD
 
     private final SimpleStringProperty menuCode;
     private final SimpleDoubleProperty price;
@@ -13,11 +14,23 @@ public class Item {
     //private final SimpleIntegerProperty quantity;
 
     public Item(String name, String menuCode, double price, String kubunCode) {
+=======
+    private final SimpleStringProperty namecode;
+    private final SimpleDoubleProperty price;
+    private final SimpleIntegerProperty kubun;
+
+    public Item(String name, double price, int kubun,String namecode) {
+>>>>>>> 128d11049b25a2185a835d6a981e069ebcd88013
         this.name = new SimpleStringProperty(name);
         this.menuCode = new SimpleStringProperty(menuCode);
         this.price = new SimpleDoubleProperty(price);
+<<<<<<< HEAD
         this.kubunCode = new SimpleStringProperty(kubunCode);
         //this.quantity = new SimpleIntegerProperty(quantity);
+=======
+        this.kubun = new SimpleIntegerProperty(kubun);
+        this.namecode = new SimpleStringProperty(namecode);
+>>>>>>> 128d11049b25a2185a835d6a981e069ebcd88013
     }
 
     // nameのgetterとsetter
@@ -33,6 +46,7 @@ public class Item {
         return name;
     }
 
+<<<<<<< HEAD
     // menuCodeのgetterとsetter
     public String getMenuCode() {
         return menuCode.get();
@@ -44,6 +58,18 @@ public class Item {
 
     public SimpleStringProperty menuCodeProperty() {
         return menuCode;
+=======
+    public String getNameCode() {
+        return namecode.get();
+    }
+
+    public void setNameCode(String namecode) {
+        this.namecode.set(namecode);
+    }
+
+    public SimpleStringProperty nameCodeProperty() {
+        return namecode;
+>>>>>>> 128d11049b25a2185a835d6a981e069ebcd88013
     }
 
     // priceのgetterとsetter
@@ -74,15 +100,21 @@ public class Item {
 
     /*
     // quantityのgetterとsetter
-    public int getQuantity() {
-        return quantity.get();
+    public int getkubun() {
+        return kubun.get();
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
+    public void setkubun(int quantity) {
+        this.kubun.set(quantity);
     }
 
+<<<<<<< HEAD
     public SimpleIntegerProperty quantityProperty() {
         return quantity;
     }*/
+=======
+    public SimpleIntegerProperty kubunProperty() {
+        return kubun;
+    }
+>>>>>>> 128d11049b25a2185a835d6a981e069ebcd88013
 }
