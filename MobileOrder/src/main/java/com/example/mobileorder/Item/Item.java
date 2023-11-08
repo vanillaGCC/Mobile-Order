@@ -5,13 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Item {
     private final SimpleStringProperty name;
+    private final SimpleStringProperty namecode;
     private final SimpleDoubleProperty price;
-    private final SimpleIntegerProperty quantity;
+    private final SimpleIntegerProperty kubun;
 
-    public Item(String name, double price, int quantity) {
+    public Item(String name, double price, int kubun,String namecode) {
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleDoubleProperty(price);
-        this.quantity = new SimpleIntegerProperty(quantity);
+        this.kubun = new SimpleIntegerProperty(kubun);
+        this.namecode = new SimpleStringProperty(namecode);
     }
 
     // nameのgetterとsetter
@@ -25,6 +27,18 @@ public class Item {
 
     public SimpleStringProperty nameProperty() {
         return name;
+    }
+
+    public String getNameCode() {
+        return namecode.get();
+    }
+
+    public void setNameCode(String namecode) {
+        this.namecode.set(namecode);
+    }
+
+    public SimpleStringProperty nameCodeProperty() {
+        return namecode;
     }
 
     // priceのgetterとsetter
@@ -41,15 +55,15 @@ public class Item {
     }
 
     // quantityのgetterとsetter
-    public int getQuantity() {
-        return quantity.get();
+    public int getkubun() {
+        return kubun.get();
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
+    public void setkubun(int quantity) {
+        this.kubun.set(quantity);
     }
 
-    public SimpleIntegerProperty quantityProperty() {
-        return quantity;
+    public SimpleIntegerProperty kubunProperty() {
+        return kubun;
     }
 }
