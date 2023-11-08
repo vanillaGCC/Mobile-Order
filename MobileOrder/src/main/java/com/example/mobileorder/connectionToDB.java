@@ -16,13 +16,15 @@ public class connectionToDB {
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT name, price, quantity FROM items");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM 商品");
 
             while (rs.next()) {
-                String name = rs.getString("name");
-                double price = rs.getDouble("price");
-                int quantity = rs.getInt("quantity");
-                items.add(new Item(name, price, quantity));
+                String name = rs.getString("商品名");
+                String menuCode = rs.getString("商品コード");
+                double price = rs.getDouble("単価");
+                String kubunCode = rs.getString("商品区分コード");
+               // int quantity = rs.getInt("quantity");
+                items.add(new Item(name, menuCode, price, kubunCode));
             }
 
             rs.close();
