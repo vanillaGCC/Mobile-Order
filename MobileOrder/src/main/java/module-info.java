@@ -12,4 +12,5 @@ module com.example.mobileorder {
     exports com.example.mobileorder;
     exports com.example.mobileorder.controller;
     opens com.example.mobileorder.controller to javafx.fxml;
+    opens com.example.mobileorder.Item to javafx.base;
 }

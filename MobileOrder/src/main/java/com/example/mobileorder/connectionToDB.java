@@ -20,9 +20,9 @@ public class connectionToDB {
 
             while (rs.next()) {
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
+                int price = rs.getInt("price");
                 int quantity = rs.getInt("quantity");
-                items.add(new Item(name, price, quantity));
+                items.add(new Item(name, price, "i"));
             }
 
             rs.close();

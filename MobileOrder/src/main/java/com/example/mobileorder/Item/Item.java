@@ -1,17 +1,22 @@
 package com.example.mobileorder.Item;
+
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import com.example.mobileorder.controller.*;
+import com.example.mobileorder.*;
 
 public class Item {
-    private final SimpleStringProperty name;
-    private final SimpleDoubleProperty price;
-    private final SimpleIntegerProperty quantity;
+    private SimpleStringProperty name;
+    private SimpleIntegerProperty price;
+    private SimpleIntegerProperty quantity;
+    private SimpleStringProperty code;
 
-    public Item(String name, double price, int quantity) {
+    public Item(String name, int price, String code) {
         this.name = new SimpleStringProperty(name);
-        this.price = new SimpleDoubleProperty(price);
-        this.quantity = new SimpleIntegerProperty(quantity);
+        this.price = new SimpleIntegerProperty(price);
+        this.quantity = new SimpleIntegerProperty(1);
+        this.code = new SimpleStringProperty(code);
     }
 
     // nameのgetterとsetter
@@ -20,6 +25,9 @@ public class Item {
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("nameにnullを指定することはできません");
+        }
         this.name.set(name);
     }
 
@@ -28,15 +36,18 @@ public class Item {
     }
 
     // priceのgetterとsetter
-    public double getPrice() {
+    public int getPrice() {
         return price.get();
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
+        if (price < 0 ) {
+            throw new IllegalArgumentException("0以下は指定できません");
+        }
         this.price.set(price);
     }
 
-    public SimpleDoubleProperty priceProperty() {
+    public SimpleIntegerProperty priceProperty() {
         return price;
     }
 
@@ -51,5 +62,20 @@ public class Item {
 
     public SimpleIntegerProperty quantityProperty() {
         return quantity;
+    }
+
+    public String getCode() {
+        return code.get();
+    }
+
+    public void setCode(String code) {
+        if (code == null) {
+            throw new IllegalArgumentException("codeにnullを指定することはできません");
+        }
+        this.code.set(code);
+    }
+
+    public SimpleStringProperty codeProperty() {
+        return code;
     }
 }
