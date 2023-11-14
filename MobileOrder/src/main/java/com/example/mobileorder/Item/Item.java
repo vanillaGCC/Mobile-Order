@@ -11,12 +11,14 @@ public class Item {
     private SimpleIntegerProperty price;
     private SimpleIntegerProperty quantity;
     private SimpleStringProperty code;
+    private SimpleIntegerProperty kubun;
 
-    public Item(String name, int price, String code) {
+    public Item(String name, int price, String code,int kubun) {
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleIntegerProperty(price);
         this.quantity = new SimpleIntegerProperty(1);
         this.code = new SimpleStringProperty(code);
+        this.kubun = new SimpleIntegerProperty(kubun);
     }
 
     // nameのgetterとsetter
@@ -77,5 +79,20 @@ public class Item {
 
     public SimpleStringProperty codeProperty() {
         return code;
+    }
+
+    public int getKubun() {
+        return kubun.get();
+    }
+
+    public void setKubun(int kubun) {
+        if (kubun < 0 ) {
+            throw new IllegalArgumentException("0以下は指定できません");
+        }
+        this.kubun.set(kubun);
+    }
+
+    public SimpleIntegerProperty kubunProperty() {
+        return kubun;
     }
 }

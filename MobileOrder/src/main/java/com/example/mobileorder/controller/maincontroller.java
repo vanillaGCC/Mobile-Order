@@ -101,6 +101,7 @@ public class maincontroller {
     @FXML
     private void addToCart(Item item) {
         // カートに商品を追加する処理
+
     }
 }
 
