@@ -12,6 +12,8 @@ public class Item {
     private SimpleIntegerProperty quantity;
     private SimpleStringProperty code;
     private SimpleIntegerProperty kubun;
+    private SimpleIntegerProperty temporaryQuantity;
+
 
     public Item(String name, int price, String code,int kubun) {
         this.name = new SimpleStringProperty(name);
@@ -19,6 +21,7 @@ public class Item {
         this.quantity = new SimpleIntegerProperty(1);
         this.code = new SimpleStringProperty(code);
         this.kubun = new SimpleIntegerProperty(kubun);
+        this.temporaryQuantity=new SimpleIntegerProperty(1);
     }
 
     // nameのgetterとsetter
@@ -94,5 +97,17 @@ public class Item {
 
     public SimpleIntegerProperty kubunProperty() {
         return kubun;
+    }
+
+    public int getTemporaryQuantity() {
+        return temporaryQuantity.get();
+    }
+
+    public void setTemporaryQuantity(int temporaryQuantity) {
+        this.temporaryQuantity.set(temporaryQuantity);
+    }
+
+    public SimpleIntegerProperty temporaryQuantityProperty() {
+        return temporaryQuantity;
     }
 }

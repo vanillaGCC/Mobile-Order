@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -11,7 +14,7 @@
   <AnchorPane maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
     <TabPane layoutX="120.0" layoutY="87.0" prefHeight="374.4" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
-        <Tab text="バーガー">
+        <Tab text="メイン">
           <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -61,14 +64,27 @@
           <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tableView21" prefHeight="371.0" prefWidth="640.0">
+                        <TableView fx:id="tableView21" prefHeight="327.0" prefWidth="449.0">
                            <columns>
-                              <TableColumn fx:id="nameColumn21" prefWidth="240.0" text="商品名" />
-                              <TableColumn fx:id="priceColumn21" minWidth="0.0" prefWidth="114.4000244140625" text="価格" />
-                              <TableColumn fx:id="quantityColumn21" prefWidth="108.0" text="数量" />
-                              <TableColumn fx:id="deleteToCartColumn21" prefWidth="178.4000244140625" text="削除" />
+                              <TableColumn fx:id="nameColumn21" prefWidth="154.0" text="商品名" />
+                              <TableColumn fx:id="priceColumn21" minWidth="0.0" prefWidth="90.0" text="価格" />
+                              <TableColumn fx:id="quantityColumn21" prefWidth="93.0" text="数量" />
+                              <TableColumn fx:id="deleteFromCartColumn" prefWidth="112.0" text="削除" />
                            </columns>
                         </TableView>
+                        <Label layoutX="477.0" layoutY="291.0" text="合計" />
+                        <Label fx:id="goukei" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="507.0" layoutY="291.0" prefHeight="17.0" prefWidth="44.0" textAlignment="RIGHT" />
+                        <Label layoutX="551.0" layoutY="291.0" text="円" />
+                        <Button fx:id="confirm" layoutX="578.0" layoutY="287.0" mnemonicParsing="false" onAction="#confirmOrder" text="注文" />
+                        <Label layoutX="455.0" layoutY="44.0" text="クレジット情報" />
+                        <TextField fx:id="cardNumber" layoutX="456.0" layoutY="69.0" prefHeight="25.0" prefWidth="170.0" promptText="ハイフンなしの16桁番号" />
+                        <Label layoutX="456.0" layoutY="103.0" text="有効期限" />
+                        <TextField fx:id="month" layoutX="458.0" layoutY="128.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="36.0" promptText="mm" />
+                        <Label layoutX="498.0" layoutY="132.0" text="/" />
+                        <TextField fx:id="year" layoutX="512.0" layoutY="128.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="36.0" promptText="yy" />
+                        <Label layoutX="456.0" layoutY="159.0" text="名義" />
+                        <TextField fx:id="username" layoutX="456.0" layoutY="180.0" prefHeight="25.0" prefWidth="170.0" promptText="カードの名義" />
+                        <Label fx:id="alart" layoutX="455.0" layoutY="225.0" prefHeight="17.0" prefWidth="172.0" />
                      </children></AnchorPane>
           </content>
         </Tab>
