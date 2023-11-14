@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mobileorder.controller.maincontroller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mobileorder.controller.maincontroller">
   <AnchorPane maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
     <TabPane layoutX="120.0" layoutY="87.0" prefHeight="374.4" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
@@ -15,7 +15,7 @@
           <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView prefHeight="345.6" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="tableView" prefHeight="345.6" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="nameColumn" prefWidth="240.0" text="商品名" />
                             <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="114.4000244140625" text="価格" />
@@ -29,19 +29,54 @@
         </Tab>
         <Tab text="サイド">
           <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableView1" prefHeight="371.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columns>
+                              <TableColumn fx:id="nameColumn1" prefWidth="240.0" text="商品名" />
+                              <TableColumn fx:id="priceColumn1" minWidth="0.0" prefWidth="114.4000244140625" text="価格" />
+                              <TableColumn fx:id="quantityColumn1" prefWidth="108.0" text="数量" />
+                              <TableColumn fx:id="addToCartColumn1" prefWidth="178.4000244140625" text="カートに追加" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
           </content>
         </Tab>
         <Tab text="ドリンク">
           <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableView2" prefHeight="371.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columns>
+                              <TableColumn fx:id="nameColumn2" prefWidth="240.0" text="商品名" />
+                              <TableColumn fx:id="priceColumn2" minWidth="0.0" prefWidth="114.4000244140625" text="価格" />
+                              <TableColumn fx:id="quantityColumn2" prefWidth="108.0" text="数量" />
+                              <TableColumn fx:id="addToCartColumn2" prefWidth="178.4000244140625" text="カートに追加" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
           </content>
         </Tab>
         <Tab text="カート">
           <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableView21" prefHeight="371.0" prefWidth="640.0">
+                           <columns>
+                              <TableColumn fx:id="nameColumn21" prefWidth="240.0" text="商品名" />
+                              <TableColumn fx:id="priceColumn21" minWidth="0.0" prefWidth="114.4000244140625" text="価格" />
+                              <TableColumn fx:id="quantityColumn21" prefWidth="108.0" text="数量" />
+                              <TableColumn fx:id="deleteToCartColumn21" prefWidth="178.4000244140625" text="削除" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
           </content>
         </Tab>
+            <Tab text="管理者用ページ">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
       </tabs>
     </TabPane>
   </AnchorPane>

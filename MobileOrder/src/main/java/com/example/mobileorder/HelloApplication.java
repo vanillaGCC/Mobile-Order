@@ -16,7 +16,7 @@ import java.util.*;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-            new connectionToDB();
+            //new connectionToDB();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/mobileorder/mainview.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Hello world!");
