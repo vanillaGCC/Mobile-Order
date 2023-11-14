@@ -1,6 +1,6 @@
 package com.example.mobileorder;
 
-import com.example.mobileorder.Item.Item;
+import com.example.mobileorder.Item.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -119,5 +119,202 @@ public class connectionToDB {
         return orderId;
     }
 
+    public static ObservableList<Order> getAllOrders() {
+        ObservableList<Order> orders = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        String sql = "SELECT 商品注文.商品コード, 商品注文.注文番号, 商品注文.個数, 商品注文.金額, 商品注文.合計,  商品.単価, 商品.商品名, 商品.商品区分コード,注文詳細.購入日時 FROM 商品注文 INNER JOIN 商品 ON 商品注文.商品コード = 商品.商品コード INNER JOIN 注文詳細 ON 商品注文.注文番号 = 注文詳細.注文番号;";
+
+        try {
+            Connection conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Order order = new Order(
+                        rs.getString("商品名"),
+                        rs.getInt("金額"),
+                        rs.getInt("個数"),
+                        rs.getString("商品コード"),
+                        rs.getInt("商品区分コード"),
+                        rs.getInt("単価"),
+                        rs.getString("注文番号"),
+                        rs.getString("購入日時"),
+                        rs.getInt("合計")
+                );
+                orders.add(order);
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return orders;
+    }
+
+    public static ObservableList<Order> getOrdersByOrderId(String orderId) {
+        ObservableList<Order> orders = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        // データベース接続とSQLクエリの実行
+        String sql = "SELECT 商品注文.商品コード, 商品注文.注文番号, 商品注文.個数, 商品注文.金額, 商品注文.合計,  商品.単価, 商品.商品名, 商品.商品区分コード,注文詳細.購入日時 FROM 商品注文 INNER JOIN 商品 ON 商品注文.商品コード = 商品.商品コード INNER JOIN 注文詳細 ON 商品注文.注文番号 = 注文詳細.注文番号 WHERE 商品注文.注文番号 = ?;";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, orderId);  // プレースホルダに注文番号をセット
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Order order = new Order(
+                        rs.getString("商品名"),
+                        rs.getInt("金額"),
+                        rs.getInt("個数"),
+                        rs.getString("商品コード"),
+                        rs.getInt("商品区分コード"),
+                        rs.getInt("単価"),
+                        rs.getString("注文番号"),
+                        rs.getString("購入日時"),
+                        rs.getInt("合計")
+                );
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return orders;
+    }
+
+    public static ObservableList<Product> getAllProducts() {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        String sql = "SELECT 商品.商品コード, 商品.商品名, 商品.商品区分コード, 商品.単価, 区分.商品区分 FROM 商品 INNER JOIN 区分 ON 商品.商品区分コード = 区分.商品区分コード;";
+
+        try {
+            Connection conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Product product = new Product(
+                        rs.getString("商品名"),
+                        rs.getInt("単価"),
+                        rs.getString("商品コード"),
+                        rs.getString("商品区分コード"),
+                        rs.getString("商品区分")
+                );
+                products.add(product);
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return products;
+    }
+
+    public static ObservableList<Product> getOrdersByCode(String code) {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        // データベース接続とSQLクエリの実行
+        String sql = "SELECT 商品.商品コード, 商品.商品名, 商品.商品区分コード, 商品.単価, 区分.商品区分 FROM 商品 INNER JOIN 区分 ON 商品.商品区分コード = 区分.商品区分コード WHERE 商品.商品コード = ?;";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, code);  // プレースホルダに注文番号をセット
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Product product = new Product(
+                        rs.getString("商品名"),
+                        rs.getInt("単価"),
+                        rs.getString("商品コード"),
+                        rs.getString("商品区分コード"),
+                        rs.getString("商品区分")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return products;
+    }
+
+    public static ObservableList<Product> getOrdersByName(String name) {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        // データベース接続とSQLクエリの実行
+        String sql = "SELECT 商品.商品コード, 商品.商品名, 商品.商品区分コード, 商品.単価, 区分.商品区分 FROM 商品 INNER JOIN 区分 ON 商品.商品区分コード = 区分.商品区分コード WHERE 商品.商品名 = ?;";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, name);  // プレースホルダに注文番号をセット
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Product product = new Product(
+                        rs.getString("商品名"),
+                        rs.getInt("単価"),
+                        rs.getString("商品コード"),
+                        rs.getString("商品区分コード"),
+                        rs.getString("商品区分")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return products;
+    }
+
+    public static ObservableList<Product> getOrdersByKubun(String kubun) {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        // データベース接続とSQLクエリの実行
+        String sql = "SELECT 商品.商品コード, 商品.商品名, 商品.商品区分コード, 商品.単価, 区分.商品区分 FROM 商品 INNER JOIN 区分 ON 商品.商品区分コード = 区分.商品区分コード WHERE 商品.商品区分コード = ?;";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, kubun);  // プレースホルダに注文番号をセット
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // ResultSetからデータを取得し、Orderオブジェクトを作成
+                Product product = new Product(
+                        rs.getString("商品名"),
+                        rs.getInt("単価"),
+                        rs.getString("商品コード"),
+                        rs.getString("商品区分コード"),
+                        rs.getString("商品区分")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
+        }
+
+        return products;
+    }
 
 }
+

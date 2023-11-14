@@ -8,22 +8,69 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Button;
-import javafx.util.Callback;
 import javafx.scene.control.TableView;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import javafx.beans.value.ObservableValue;
 
 public class maincontroller {
+    @FXML
+    public TableView<Order> tableviews;
+    @FXML
+    public TableColumn <Order,String>orderId1;
+    @FXML
+    public TableColumn<Order,String> code1;
+    @FXML
+    public TableColumn<Order,String> name1;
+    @FXML
+    public TableColumn<Order,Integer> kubun1;
+    @FXML
+    public TableColumn<Order,Integer> oneprice1;
+    @FXML
+    public TableColumn<Order,Integer> price1;
+    @FXML
+    public TableColumn<Order,Integer> quantity1;
+    @FXML
+    public TableColumn<Order,String> date;
+    @FXML
+    public TableColumn<Order,Integer> totalprice1;
+    @FXML
+    public TextField textfieldorder;
+    @FXML
+    public Button search;
+    @FXML
+    public Button refresh;
+    @FXML
+    public TableColumn<Product,String> code2;
+    @FXML
+    public TableColumn<Product,String > name2;
+    @FXML
+    public TableColumn<Product,String> kubun2;
+    @FXML
+    public TableColumn<Product,Integer> kubuncode2;
+    @FXML
+    public TableColumn<Product,Integer> price2;
+    @FXML
+    public TextField codeField;
+    @FXML
+    public Button searchc;
+    @FXML
+    public TextField nameField;
+    @FXML
+    public Button searchn;
+    @FXML
+    public TextField kubunField;
+    @FXML
+    public Button searchk;
+    @FXML
+    public Button update;
+    @FXML
+    public TableView<Product> tableviewp;
+
     @FXML
     private TableView<Item> tableView;
 
@@ -94,6 +141,8 @@ public class maincontroller {
     private final ObservableList<Item> drinkItems = FXCollections.observableArrayList();
     private final ObservableList<Item> sideItems = FXCollections.observableArrayList();
     private final ObservableList<Item> cartItems = FXCollections.observableArrayList();
+
+    private final ObservableList<Order> orderItems= FXCollections.observableArrayList();
     int total;
 
 
@@ -101,6 +150,8 @@ public class maincontroller {
     private void initialize() {
         setupTableColumns();
         loadItems();
+        onUpdate();
+        onUpdateProduct();
     }
 
     private void setupTableColumns() {
@@ -125,6 +176,24 @@ public class maincontroller {
         priceColumn21.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         quantityColumn21.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        orderId1.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        code1.setCellValueFactory(new PropertyValueFactory<>("code"));
+        name1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        kubun1.setCellValueFactory(new PropertyValueFactory<>("kubun"));
+        oneprice1.setCellValueFactory(new PropertyValueFactory<>("oneprice"));
+        price1.setCellValueFactory(new PropertyValueFactory<>("price"));
+        quantity1.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        totalprice1.setCellValueFactory(new PropertyValueFactory<>("totalprice"));
+
+        name2.setCellValueFactory(new PropertyValueFactory<>("name"));
+        code2.setCellValueFactory(new PropertyValueFactory<>("code"));
+        kubun2.setCellValueFactory(new PropertyValueFactory<>("kubun"));
+        kubuncode2.setCellValueFactory(new PropertyValueFactory<>("kubuncode"));
+        price2.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+
 
 
         // 数量選択列の設定
@@ -410,6 +479,70 @@ public class maincontroller {
         String str = connectionToDB.getNextOrderId();
         int code = Integer.parseInt(str);
         return String.format("%08d",code);
+    }
+
+    @FXML
+    private void onUpdate() {
+        // データベースから全ての注文情報を取得
+        ObservableList<Order> orders = connectionToDB.getAllOrders();
+
+        // TableViewにデータを設定
+        tableviews.setItems(orders);
+    }
+
+    @FXML
+    private void onSearch() {
+        // TextFieldから注文番号を取得
+        String orderId = textfieldorder.getText();
+
+        // 指定された注文番号に基づいてデータベースから注文情報を取得
+        ObservableList<Order> orders = connectionToDB.getOrdersByOrderId(orderId);
+
+        // TableViewにデータを設定
+        tableviews.setItems(orders);
+    }
+    
+    @FXML
+    private void onUpdateProduct(){
+        ObservableList<Product> products = connectionToDB.getAllProducts();
+
+        // TableViewにデータを設定
+        tableviewp.setItems(products);
+    }
+
+    @FXML
+    private void onSearchPCode() {
+        // TextFieldから注文番号を取得
+        String code = codeField.getText();
+
+        // 指定された注文番号に基づいてデータベースから注文情報を取得
+        ObservableList<Product> products = connectionToDB.getOrdersByCode(code);
+
+        // TableViewにデータを設定
+        tableviewp.setItems(products);
+    }
+
+    @FXML
+    private void onSearchName() {
+        // TextFieldから注文番号を取得
+        String name = nameField.getText();
+
+        // 指定された注文番号に基づいてデータベースから注文情報を取得
+        ObservableList<Product> products = connectionToDB.getOrdersByName(name);
+
+        // TableViewにデータを設定
+        tableviewp.setItems(products);
+    }
+
+    @FXML
+    private void onSearchKubun() {
+        // TextFieldから注文番号を取得
+        String kubun = kubunField.getText();
+        // 指定された注文番号に基づいてデータベースから注文情報を取得
+        ObservableList<Product> products = connectionToDB.getOrdersByKubun(kubun);
+
+        // TableViewにデータを設定
+        tableviewp.setItems(products);
     }
 
 }
