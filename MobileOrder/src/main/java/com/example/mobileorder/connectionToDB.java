@@ -70,6 +70,40 @@ public class connectionToDB {
 
     }
 
+    public static void insertOrderIntoDatabase2(String productCode, String orderId, int quantity, int price, int taxExcludedPrice, int tax, double totalPrice, String name, String kubun, int tanka, String date) {
+        // データベースに注文を挿入する処理
+        // JDBCを使用してデータベースに接続し、INSERT文を実行
+        ObservableList<Item> itemList = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+        String sql = "INSERT INTO  商品単価保持(商品コード, 注文番号, 商品名, 単価, 商品区分コード, 個数, 金額, 税抜額, 消費税, 合計, 購入日時) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // パラメータの設定
+            pstmt.setString(1, productCode);
+            pstmt.setString(2, orderId);
+            pstmt.setString(3, name);
+            pstmt.setInt(4, tanka);
+            pstmt.setString(5, kubun);
+            pstmt.setInt(6, quantity);
+            pstmt.setInt(7, price);
+            pstmt.setInt(8, taxExcludedPrice);
+            pstmt.setInt(9, tax);
+            pstmt.setDouble(10, totalPrice);
+            pstmt.setString(11, date);
+
+            // SQL文の実行
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // 実際のアプリケーションでは、適切なエラーハンドリングが必要です
+        }
+
+    }
+
     public static void inserCardIntoDatabase(String orderId, String cardNumber, String cardHolderName, String expirationDate, String formattedDateTime) {
         // データベースに注文を挿入する処理
         // JDBCを使用してデータベースに接続し、INSERT文を実行
@@ -124,7 +158,7 @@ public class connectionToDB {
         String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
         String user = "al21074";
         String password = "bond";
-        String sql = "SELECT 商品注文.商品コード, 商品注文.注文番号, 商品注文.個数, 商品注文.金額, 商品注文.合計,  商品.単価, 商品.商品名, 商品.商品区分コード,注文詳細.購入日時 FROM 商品注文 INNER JOIN 商品 ON 商品注文.商品コード = 商品.商品コード INNER JOIN 注文詳細 ON 商品注文.注文番号 = 注文詳細.注文番号;";
+        String sql = "SELECT 商品コード, 注文番号, 個数, 金額, 合計, 単価, 商品名, 商品区分コード,購入日時 FROM 商品単価保持;";
 
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
@@ -314,6 +348,33 @@ public class connectionToDB {
         }
 
         return products;
+    }
+
+    public static int insertNewProductIntoDatabase(String code, String name, int price, String kubuncode) {
+        // データベースに注文を挿入する処理
+        // JDBCを使用してデータベースに接続し、INSERT文を実行
+        ObservableList<Item> itemList = FXCollections.observableArrayList();
+        String url = "jdbc:postgresql://tokushima.data.ise.shibaura-it.ac.jp:5432/group8";
+        String user = "al21074";
+        String password = "bond";
+
+        String sql = "INSERT INTO 商品 (商品コード, 商品名, 単価, 商品区分コード) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, code);
+            pstmt.setString(2, name);
+            pstmt.setInt(3, price);
+            pstmt.setString(4, kubuncode);
+
+            pstmt.executeUpdate();
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace(); // エラーハンドリング
+            return 0;
+        }
+
     }
 
 }

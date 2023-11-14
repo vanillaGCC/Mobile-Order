@@ -1,6 +1,7 @@
 package com.example.mobileorder.controller;
 
 import com.example.mobileorder.Item.*;
+import com.example.mobileorder.MobileOrder;
 import com.example.mobileorder.connectionToDB;
 
 import javafx.fxml.FXML;
@@ -13,7 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -70,6 +73,20 @@ public class maincontroller {
     public Button update;
     @FXML
     public TableView<Product> tableviewp;
+    @FXML
+    public ChoiceBox<String> kubunbox;
+    @FXML
+    public TextField newproductname;
+    @FXML
+    public TextField newcode;
+    @FXML
+    public TextField newprice;
+    @FXML
+    public Label alartlabel;
+    @FXML
+    public Button addbutoon;
+    @FXML
+    public Button editProduct;
 
     @FXML
     private TableView<Item> tableView;
@@ -152,6 +169,7 @@ public class maincontroller {
         loadItems();
         onUpdate();
         onUpdateProduct();
+        setUpkubunbox();
     }
 
     private void setupTableColumns() {
@@ -364,6 +382,11 @@ public class maincontroller {
 
     }
 
+    private void setUpkubunbox(){
+        kubunbox.setItems(FXCollections.observableArrayList("0", "1", "2"));
+        kubunbox.setValue("0"); // デフォルト値を設定
+    }
+
     private void loadItems() {
         // データベースから商品データを読み込んでitemListに追加
         // 以下はデモデータの例
@@ -465,9 +488,14 @@ public class maincontroller {
             int price = item.getPrice() * item.getQuantity();
             int tax = (int) (price * 0.08); // 消費税を計算
             int taxExcludedPrice = price - tax;
+            int kubu = item.getKubun();
+            String kubun=Integer.toString(kubu);
+            String name = item.getName();
+            int tanka= item.getPrice();
 
             // データベースに挿入する処理
             connectionToDB.insertOrderIntoDatabase(item.getCode(), orderId, item.getQuantity(), price, taxExcludedPrice, tax, totalPrice);
+            connectionToDB.insertOrderIntoDatabase2(item.getCode(), orderId, item.getQuantity(), price, taxExcludedPrice, tax, totalPrice,name,kubun,tanka,formattedDateTime);
         }
 
         cartItems.clear(); // カートを空にする
@@ -545,5 +573,77 @@ public class maincontroller {
         tableviewp.setItems(products);
     }
 
+    @FXML
+    public void addNewProduct() {
+        ObservableList<Item> items = connectionToDB.getItemsFromDatabase();
+        String newName=newproductname.getText();
+        StringBuilder newCode= new StringBuilder(newcode.getText());
+        int price = Integer.parseInt(newprice.getText());
+        alartlabel.setText("");
+        String code="";
+        int kubuncode =Integer.parseInt(kubunbox.getValue());
+        if (!isSixDigitInteger(newCode.toString())){
+            alartlabel.setText("商品を追加できません");
+            return;
+        }
+        for (Item item : items) {
+            if ( kubuncode == 0) {
+                if(item.getName().equals(newName)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }
+                if(item.getCode().equals("BU"+newCode)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }else{
+                    code="BU"+ newCode;
+                }
+            } else if (kubuncode == 1) {
+                if(item.getName().equals(newName)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }
+                if(item.getCode().equals("DR"+newCode)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }else{
+                    code="DR"+ newCode;
+                }
+            } else if (kubuncode == 2) {
+                if(item.getName().equals(newName)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }
+                if(item.getCode().equals("SI"+newCode)){
+                    alartlabel.setText("商品を追加できません");
+                    return;
+                }else{
+                    code="SI"+ newCode;
+                }
+            }
+            // 追加の条件が必要な場合はここに記述
+        }
+
+        int i = connectionToDB.insertNewProductIntoDatabase(code, newName, price, Integer.toString(kubuncode));
+        if(i==1){
+            alartlabel.setText("追加に成功しました");
+        }else{
+            alartlabel.setText("追加に失敗しました");
+        }
+
+    }
+
+    private static boolean isSixDigitInteger(String str) {
+        if (str == null || str.length() != 6) {
+            return false;
+        }
+
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
 

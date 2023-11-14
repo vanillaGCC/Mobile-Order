@@ -11,8 +11,8 @@ public class test {
         String password = "bond";
 
         //String sql = "SELECT*FROM 商品注文";
-        String sql = "SELECT*FROM 注文詳細";
-        try {
+        String sql = "DELETE FROM 商品単価保持 WHERE 注文番号 = ?";
+        /*try {
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
 
@@ -28,12 +28,12 @@ public class test {
                     String d=rs.getString("消費税");
                     String e=rs.getString("合計");
                     System.out.println(name);
-                    System.out.println(code);*/
+                    System.out.println(code);
                     System.out.println(a);
                     System.out.println(b);
-                    /*System.out.println(c);
+                    System.out.println(c);
                     System.out.println(d);
-                    System.out.println(e);*/
+                    System.out.println(e);
 
                 }
             }
@@ -42,7 +42,17 @@ public class test {
         } catch (SQLException e) {
             e.printStackTrace(); // 本番環境では適切なエラーハンドリングが必要
         }
+        */
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1,"00000021");
+            // 条件に合致するレコードを削除
+            int affectedRows = pst.executeUpdate();
+            System.out.println(affectedRows + " 行が削除されました。");
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
